@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <templates xml:space="preserve">
+        <t t-inherit="mail.Activity" t-inherit-mode="extension">
+            <xpath expr="//*[hasclass('o_Activity_info')]" position="after">
+                <span>1qqqqqqqqqqqqqq</span>
+                <t t-if="activity.longitude">
+                    <dt>longitude</dt>
+                    <dd class="o_Activity_type">
+                        <t t-esc="activity.longitude"/>
+                    </dd>
+                </t>
+                <t t-if="activity.latitude">
+                    <dt>latitude</dt>
+                    <dd class="o_Activity_type">
+                        <t t-esc="activity.latitude"/>
+                    </dd>
+                </t>
+<!--                 <t t-if="activity.longitude">
+                    <dt>longitude</dt>
+                    <dd class="o_Activity_type">
+                        <t t-esc="activity.longitude"/>
+                    </dd>
+                </t>
+                <t t-if="activity.longitude">
+                    <dt>longitude</dt>
+                    <dd class="o_Activity_type">
+                        <t t-esc="activity.longitude"/>
+                    </dd>
+                </t>
+                <t t-if="activity.longitude">
+                    <dt>longitude</dt>
+                    <dd class="o_Activity_type">
+                        <t t-esc="activity.longitude"/>
+                    </dd>
+                </t> -->
+            </xpath> 
+        </t>
+</template>

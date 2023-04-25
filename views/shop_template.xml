@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mail_activity_from_inherit_id" model="ir.ui.view">
+            <field name="name">mail.activity</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+                <field name="summary" position="after">
+                    <field name="filename" invisible="1"/>
+                    <field name="image" filename="filename"/>
+                    <field name="attachment"/>
+                </field>
+
+                <field name="user_id" position="after">
+                    <field name="longitude"/>
+                    <field name="latitude"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

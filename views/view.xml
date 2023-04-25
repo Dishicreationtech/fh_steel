@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+	<!-- 
+	   <record id="res_partner_view_create_id" model="ir.ui.view">
+    		<field name="name">res.partner.view.create</field>
+    		<field name="model">res.patner</field>
+    		<field name="inherit_id" ref="base.view_partner_form"/>
+    		<field name="arch" type="xml">
+    			<xpath expr="field[@name='create_id']" position="after">
+    				<field name="record_create_id"/>
+    			</xpath>
+    	   </field>	
+	   </record>
+ -->
+
+
+       <record id="res_users_view_create_id" model="ir.ui.view">
+            <field name="name">res.users.view.create</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                    <label for="hierarchy_map"/>
+                    <field name="hierarchy_map"/>
+                </xpath>
+           </field> 
+       </record>
+
+
+        <record id="res_partner_view_create" model="ir.ui.view">
+            <field name="name">res.partner.view.create</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='vat']" position="after">
+                    <field name="add_lead"/>
+                    <field name="dealer" attrs="{'invisible': [('add_lead','!=', 'fabricator'),('add_lead','!=', 'customer')]}"/>
+                </xpath>
+           </field> 
+       </record>
+
+
+
+        <record id="view_mail_activity_from_inherit_id" model="ir.ui.view">
+            <field name="name">mail.activity</field>
+            <field name="model">mail.activity</field>
+            <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
+            <field name="arch" type="xml">
+                <field name="summary" position="after">
+                    <field name="filename" invisible="1"/>
+                    <field name="image" widget="image"  filename="filename"/>
+                    <field name="attachment_id"/>
+                </field>
+
+                <field name="user_id" position="after">
+                    <field name="longitude"/>
+                    <field name="latitude"/>
+                    <field name="location"/>
+                    <field name="request_partner_id" string="Create By"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="mail_activity_api_action" model="ir.actions.act_window">
+            <field name="name">Activities</field>
+            <field name="res_model">mail.activity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+          id="menu_contact_activities"
+          action="mail_activity_api_action"
+          parent="contacts.menu_contacts"
+          sequence="40"
+        />
+
+    </data>
+</odoo>
