@@ -33,8 +33,8 @@ class Websession(http.Controller):
 
         activty_type = request.env.ref('mail.mail_activity_data_todo').sudo()
         activity_id = request.env['mail.activity'].sudo().with_env(request.env(user=current_ids.user_id.id)).create({
-                    'summary': data.get('activity_title'),
-                    'note': data.get('remarks'),
+                    'summary': data.get('activity_title') or '',
+                    'note': data.get('remarks') or '',
                     'activity_type_id': activty_type.id,
                     'res_model_id': request.env['ir.model'].sudo().search([('model', '=', 'res.partner')],
                                                                        limit=1).id,
@@ -134,7 +134,24 @@ class Websession(http.Controller):
 
 
         return {'status_message': 200, 'activity_id': activity_id}
-
+        
+        ## Below is the param for the api for the above api#######################################        
+        # http://20.235.77.79:8069/web/activiti/attachment/data
+                # {
+          # "params": {
+            # "data": {
+              # "user_id" : this.user_id,
+              # "activity_title": this.pgname,
+              # "partner": this.partner_id,
+              # "remarks": this.notesval,
+              # "longitude": this.llng,
+              # "latitude": this.lat,
+              # "attachment": this.api_file_attachment,
+              # "image": this.api_img_attachment
+          # }
+        # }
+        # }
+        ###############################################################################################
     #@http.route('/web/contact/create/data', type='json', auth="public", cors="*", csrf=False)
     #def Contacts(self, data=None):
 
