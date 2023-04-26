@@ -1,12 +1,12 @@
 
-from odoo import http
+from odoo import http,fields
 from odoo.http import request
-
 import json
 import base64
 import io
 from PIL import Image
 from datetime import datetime
+import ast
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -195,10 +195,10 @@ class Websession(http.Controller):
             task_info.append({'task_id': task.activity_id.id,'task_date_deadline': task.date_deadline,'task_note': task.summary,'task_assign_to': task.user_id.id,'task_note': task.note})
             return {'status_message': 200, 'task_info': task_info}
                 
-    @http.route('/get_task_information', type='json', auth='public', csrf=False)
+    @http.route('/get_task_information', type='json', auth='public', cors="*" ,csrf=False)
     def get_task_information(self, **post):
         line_ids = []
-        data = request.jsonrequest
+       
         task_ids = request.env['mail.activity'].sudo().search([])
         line_ids = [{'task_id' : record.id, 'task_date': record.date_deadline, 'task_summary' : record.summary } for record in task_ids]
         return {'status_message' : 200, 'task_info' : line_ids}
