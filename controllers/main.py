@@ -1,10 +1,13 @@
 
 from odoo import http
 from odoo.http import request
+import json
 import base64
 import io
 from PIL import Image
 from datetime import datetime
+import logging
+_logger = logging.getLogger(__name__)
 
 class Websession(http.Controller):
 
@@ -25,8 +28,8 @@ class Websession(http.Controller):
         else:
             return {'status_message': 200, 'contacts': {}}
      
-    
-    @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
+    @http.route('/get_farmer/out_grower', type='json', auth='public', csrf=False)
+    @http.route('/get_task/data', type='json', auth="public", cors="*", csrf=False)
     def task(self,  **post):
         data = request.jsonrequest
         print('###################### task data #####################',data)
