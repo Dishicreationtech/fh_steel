@@ -25,10 +25,11 @@ class Websession(http.Controller):
         else:
             return {'status_message': 200, 'contacts': {}}
      
-    def find_task(self, values):
-        task_info = []
-        domain = self.get_domain(values)
-        task_ids = request.env['mail.activity'].sudo().search(domain)
+    
+    @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
+    def task(self, data=None):
+        print('######################task data #####################',data)
+        task_ids = request.env['mail.activity'].sudo().search([(user_id), '=', int(data.get('partner'))])
         for task in task_ids:
             task_info.append({
                 'task_id' : task.activity_id.id,
@@ -37,12 +38,9 @@ class Websession(http.Controller):
                 'task_assign_to': task.user_id.id,
                 'task_note' : task.note,
                 })
-        return task_info
-     
-    @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
-    def task(self, **post):
-        data = request.jsonrequest
-        task_data = self.find_task(data.get('user_id'))
+       
+       
+        task_data = task_info
         return {'status_message': 200, 'task_info' : task_data}
     
 
