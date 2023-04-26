@@ -15,10 +15,10 @@ class Websession(http.Controller):
             data = request.env['ir.http'].session_info()
             user = request.env.user
             user_ids = request.env['res.partner'].sudo().search([("user_id", "=", user.id)])
-            dealers_ids = request.env['res.partner'].sudo().search([("user_id", "=", user.id),("add_lead", "=", "dealer")])
+            dealers_ids = request.env['res.partner'].sudo().search([("user_id", "=", user.id)])
             # ,("add_lead", "=", "dealer")#######
             data.update({
-                'contacts': [{'id':contact.id, 'name': contact.name, 'mobile':  contact.mobile, 'email' : contact.email, 'user_id':user.id} for contact in dealers_ids]
+                'contacts': [{'id':contact.id, 'name': contact.name, 'mobile':  contact.mobile, 'email' : contact.email, 'type' : contact.add_lead,'user_id':user.id} for contact in dealers_ids]
                               
                 })
             return data
