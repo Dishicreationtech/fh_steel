@@ -29,7 +29,7 @@ class Websession(http.Controller):
     @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
     def task(self, data=None):
         print('######################task data #####################',data)
-        task_ids = request.env['mail.activity'].sudo().search([(user_id), '=', int(data.get('partner'))])
+        task_ids = request.env['mail.activity'].sudo().search([(user_id), '=', int(data.get('user_id'))])
         for task in task_ids:
             task_info.append({
                 'task_id' : task.activity_id.id,
