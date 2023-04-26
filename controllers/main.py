@@ -1,6 +1,7 @@
 
 from odoo import http
 from odoo.http import request
+
 import json
 import base64
 import io
@@ -28,26 +29,7 @@ class Websession(http.Controller):
         else:
             return {'status_message': 200, 'contacts': {}}
      
-    
-    @http.route('/get_task/data', type='json', auth="public", cors="*", csrf=False)
-    def task(self,  **post):
-        data = request.jsonrequest
-        print('###################### task data #####################',data)
-        task_ids = request.env['mail.activity'].sudo().search([('user_id', '=', int(data.get('user_no')))])
-        
-        user = data.get('user_id')
-        for task in task_ids:
-            task_info.append({
-                'task_id' : task.activity_id.id,
-                'task_date_deadline' : task.date_deadline,
-                'task_note' : task.summary,
-                'task_assign_to': task.user_id.id,
-                'task_note' : task.note,
-                })
-       
-       
-        task_data = task_info
-        return {'status_message': 200, 'task_info' : task_data}
+
     
 
     @http.route('/web/activiti/attachment/data', type='json', auth="public", cors="*", csrf=False)
@@ -110,7 +92,6 @@ class Websession(http.Controller):
                         "res_id" : data.get('partner'),
                     })
                 activity_id.attachment_id = attachment_id.id
-
             if data.get('attachment2'):
                 attach_data =  bytes(data.get('attachment2'), encoding='utf-8')
                 attachment_id = request.env["ir.attachment"].sudo().create({
@@ -126,7 +107,6 @@ class Websession(http.Controller):
                         "res_id" : data.get('partner'),
                     })
                 activity_id.attachment_id = attachment_id.id
-
             if data.get('attachment3'):
                 attach_data =  bytes(data.get('attachment3'), encoding='utf-8')
                 attachment_id = request.env["ir.attachment"].sudo().create({
@@ -142,7 +122,6 @@ class Websession(http.Controller):
                         "res_id" : data.get('partner'),
                     })
                 activity_id.attachment_id = attachment_id.id
-
             if data.get('attachment4'):
                 attach_data =  bytes(data.get('attachment4'), encoding='utf-8')
                 attachment_id = request.env["ir.attachment"].sudo().create({
@@ -159,26 +138,8 @@ class Websession(http.Controller):
                     })
                 activity_id.attachment_id = attachment_id.id
 
-
         return {'status_message': 200, 'activity_id': activity_id}
         
-        ## Below is the param for the api for the above api#######################################        
-        # http://20.235.77.79:8069/web/activiti/attachment/data
-                # {
-          # "params": {
-            # "data": {
-              # "user_id" : this.user_id,
-              # "activity_title": this.pgname,
-              # "partner": this.partner_id,
-              # "remarks": this.notesval,
-              # "longitude": this.llng,
-              # "latitude": this.lat,
-              # "attachment": this.api_file_attachment,
-              # "image": this.api_img_attachment
-          # }
-        # }
-        # }
-        ###############################################################################################
     #@http.route('/web/contact/create/data', type='json', auth="public", cors="*", csrf=False)
     #def Contacts(self, data=None):
 
@@ -225,4 +186,19 @@ class Websession(http.Controller):
                         })
                     activity_id.attachment_id = partner_attachment_id.id
         return {'status_message': 200, 'partner_id': partner_id.name}
+        
+        
+    @http.route('/web/contact/task/data', type='json', auth="public", cors="*")
+    def Task(self, data=None):       
+        if data:
+            task_ids = request.env['res.partner'].sudo().search([('user_id','=', int(data.get('user_id')))])
+            for task in task_ids:
+            task_info.append({
+                'task_id' : task.activity_id.id,
+                'task_date_deadline' : task.date_deadline,
+                'task_note' : task.summary,
+                'task_assign_to': task.user_id.id,
+                'task_note' : task.note,
+                })           
+        return {'status_message': 200, 'task_info': task_info}
 
