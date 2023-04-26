@@ -176,7 +176,7 @@ class Websession(http.Controller):
                     "street": data.get('street') or '',
                     "city": data.get('city') or '',
                     "add_lead": data.get('type') or '',
-                    "add_type": data.get('dealer') or '',
+                    "dealer": data.get('dealer') or '',
 
                 })
             partner_id.company_type = 'company'
