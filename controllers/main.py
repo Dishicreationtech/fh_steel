@@ -28,11 +28,7 @@ class Websession(http.Controller):
     
     @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
     def task(self, data=None):
-      
-        user = data.get('user_id')
-        print('######################task data #####################',user)
-        user = data.get('user_id')
-        task_ids = request.env['mail.activity'].sudo().search([(user_id), '=', user])
+        task_ids = request.env['mail.activity'].sudo().search([(user_id), '=', int(data.get('user_id'))])
         print('###################### task data #####################',task_ids)
         user = data.get('user_id')
         for task in task_ids:
