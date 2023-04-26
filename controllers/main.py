@@ -29,9 +29,6 @@ class Websession(http.Controller):
         else:
             return {'status_message': 200, 'contacts': {}}
      
-
-    
-
     @http.route('/web/activiti/attachment/data', type='json', auth="public", cors="*", csrf=False)
     def Activiti(self, data=None):
         current_ids = request.env['res.partner'].sudo().search([('id','=', int(data.get('partner')))])
@@ -39,7 +36,6 @@ class Websession(http.Controller):
         partner_name = partner_ids.mapped('name')
         print('imageeeeeeeeeeee',data)
         val = False
-
         activty_type = request.env.ref('mail.mail_activity_data_todo').sudo()
         activity_id = request.env['mail.activity'].sudo().with_env(request.env(user=current_ids.user_id.id)).create({
                     'summary': data.get('activity_title') or '',
@@ -139,16 +135,7 @@ class Websession(http.Controller):
                 activity_id.attachment_id = attachment_id.id
 
         return {'status_message': 200, 'activity_id': activity_id}
-        
-    #@http.route('/web/contact/create/data', type='json', auth="public", cors="*", csrf=False)
-    #def Contacts(self, data=None):
-
-    #   if data:
-    #        partner_id = request.env['res.partner'].sudo().create(data)
-    #        partner_id.company_type = 'company'
-    #    return {'status_message': 200, 'partner_id': partner_id.name}
-
-
+   
     @http.route('/web/contact/create/data', type='json', auth="public", cors="*")
     def Contacts(self, data=None):
         current_ids = request.env['res.partner'].sudo().search([('id','=', int(data.get('partner')))])
@@ -186,19 +173,10 @@ class Websession(http.Controller):
                         })
                     activity_id.attachment_id = partner_attachment_id.id
         return {'status_message': 200, 'partner_id': partner_id.name}
-        
-        
-    @http.route('/web/contact/task/data', type='json', auth="public", cors="*")
-    def Task(self, data=None):       
-        task_ids = request.env['mail.activity'].sudo().search([])
-        for task in task_ids:
-            task_info.append({'task_id': task.activity_id.id,'task_date_deadline': task.date_deadline,'task_note': task.summary,'task_assign_to': task.user_id.id,'task_note': task.note})
-            return {'status_message': 200, 'task_info': task_info}
-                
+            
     @http.route('/get_task_information', type='json', auth='public', cors="*" ,csrf=False)
     def get_task_information(self, **post):
         line_ids = []
-       
-        task_ids = request.env['mail.activity'].sudo().search([])
-        line_ids = [{'task_id' : record.id, 'task_date': record.date_deadline, 'task_summary' : record.summary } for record in task_ids]
+        task_ids = request.env['mail.activity'].sudo().search(['user_id','=', data.get('user_id')])
+        line_ids = [{'task_id' : record.id, 'task_date': record.date_deadline, 'task_user_id' : record.user_id , 'task_summary' : record.summary ,'task_note' : record.note } for record in task_ids]
         return {'status_message' : 200, 'task_info' : line_ids}
