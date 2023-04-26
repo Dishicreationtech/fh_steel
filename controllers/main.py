@@ -190,15 +190,9 @@ class Websession(http.Controller):
         
     @http.route('/web/contact/task/data', type='json', auth="public", cors="*")
     def Task(self, data=None):       
-        if data:
-            task_ids = request.env['mail.activity'].sudo().search([('user_id', '=', int(data.get('user_id')))])
-            for task in task_ids:
-                task_info.append({
-                    'task_id': task.activity_id.id,
-                    'task_date_deadline': task.date_deadline,
-                    'task_note': task.summary,
-                    'task_assign_to': task.user_id.id,
-                    'task_note': task.note,
-                })
-                return {'status_message': 200, 'task_info': task_info}
-
+        task_ids = request.env['mail.activity'].sudo().search([])
+        for task in task_ids:
+            task_info.append({'task_id': task.activity_id.id,'task_date_deadline': task.date_deadline,'task_note': task.summary,'task_assign_to': task.user_id.id,'task_note': task.note})
+            return {'status_message': 200, 'task_info': task_info}
+                
+    
