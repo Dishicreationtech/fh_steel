@@ -18,7 +18,7 @@ class Websession(http.Controller):
             dealers_ids = request.env['res.partner'].sudo().search([("user_id", "=", user.id),("add_lead", "=", "dealer")])
             # ,("add_lead", "=", "dealer")#######
             data.update({
-                'contacts': [{'id':contact.id, 'name': contact.name, 'mobile':  contact.mobile, 'email' : contact.email, 'user_id':user.id} for contact in dealers_ids]
+                'contacts': [{'id':contact.id, 'name': contact.name, 'mobile':  contact.mobile, 'email' : contact.email, 'type' : contact.add_lead,'user_id':user.id} for contact in dealers_ids]
                               
                 })
             return data
