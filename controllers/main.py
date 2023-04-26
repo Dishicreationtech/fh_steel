@@ -24,6 +24,27 @@ class Websession(http.Controller):
             return data
         else:
             return {'status_message': 200, 'contacts': {}}
+     
+    def find_task(self, values):
+        task_info = []
+        domain = self.get_domain(values)
+        task_ids = request.env['mail.activity'].sudo().search(domain)
+        for task in task_ids:
+            task_info.append({
+                'task_id' : task.activity_id.id,
+                'task_date_deadline' : task.date_deadline,
+                'task_note' : task.summary,
+                'task_assign_to': task.user_id.id,
+                'task_note' : task.note,
+                })
+        return task_info
+     
+    @http.route('/web/task/data', type='json', auth="public", cors="*", csrf=False)
+    def task(self, **post):
+        data = request.jsonrequest
+        task_data = self.find_task(data.get('user_id'))
+        return {'status_message': 200, 'task_info' : task_data}
+    
 
     @http.route('/web/activiti/attachment/data', type='json', auth="public", cors="*", csrf=False)
     def Activiti(self, data=None):
