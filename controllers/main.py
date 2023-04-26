@@ -176,7 +176,7 @@ class Websession(http.Controller):
             
     @http.route('/get_task_information', type='json', auth='public', cors="*" ,csrf=False)
     def get_task_information(self, user_id):
-    
+        print('user########################', user_id)
         line_ids = []
         task_ids = request.env['mail.activity'].sudo().search(['user_id','=', int(user_id) ])
         line_ids = [{'task_id' : record.id, 'task_date': record.date_deadline, 'task_user_id' : record.user_id , 'task_summary' : record.summary ,'task_note' : record.note } for record in task_ids]
