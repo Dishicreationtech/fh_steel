@@ -178,6 +178,6 @@ class Websession(http.Controller):
     def get_task_information(self, user_id):
         print('user########################', user_id)
         line_ids = []
-        task_ids = request.env['mail.activity'].sudo().search(['user_id','=', int(user_id) ])
+        task_ids = request.env['mail.activity'].sudo().search([])
         line_ids = [{'task_id' : record.id, 'task_date': record.date_deadline, 'task_user_id' : record.user_id , 'task_summary' : record.summary ,'task_note' : record.note } for record in task_ids]
         return {'status_message' : 200, 'task_info' : line_ids}
