@@ -28,7 +28,7 @@ class Websession(http.Controller):
         else:
             return {'status_message': 200, 'contacts': {}}
      
-    @http.route('/get_farmer/out_grower', type='json', auth='public', csrf=False)
+    
     @http.route('/get_task/data', type='json', auth="public", cors="*", csrf=False)
     def task(self,  **post):
         data = request.jsonrequest
